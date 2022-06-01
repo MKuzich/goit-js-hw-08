@@ -29,7 +29,11 @@ function onFormSubmit(e) {
     e.preventDefault();
     obj.email = input.value;
     obj.message = textArea.value;
-    console.log(obj);
-    e.currentTarget.reset();
-    localStorage.removeItem(LOCALSTORAGE_FORM);
+    if (obj.email && obj.message) {
+        console.log(obj);
+        e.currentTarget.reset();
+        localStorage.removeItem(LOCALSTORAGE_FORM);
+    } else {
+        console.log('Please, fill the all fields!');
+    }
 }
