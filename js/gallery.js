@@ -1,9 +1,9 @@
-export const galleryItems = [
+const images = [
   {
     preview:
-      'https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825__340.jpg',
+      'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
     original:
-      'https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825_1280.jpg',
+      'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820_1280.jpg',
     description: 'Hokkaido Flower',
   },
   {
@@ -63,3 +63,58 @@ export const galleryItems = [
     description: 'Lighthouse Coast Sea',
   },
 ];
+
+const gallery = document.querySelector('.gallery');
+const links = document.querySelectorAll('.gallery-link');
+
+const instance = basicLightbox.create(
+  `
+    <div class="modal">
+        <img src="assets/images/image.png" >
+    </div>
+`,
+  {
+    onShow: instance => {
+      //   instance.element().querySelector('a').onclick = instance.close;
+    },
+    onClose: instance => {
+      instance.element().querySelector('img').src = '';
+    },
+  }
+);
+
+const markup = images.reduce((acc, { preview, original, description }) => {
+  return (
+    acc +
+    `<li class="gallery-item">
+        <a class="gallery-link" href="${original}">
+            <img
+            class="gallery-image"
+            src="${preview}"
+            data-source="${original}"
+            alt="${description}"
+            />
+        </a>
+    </li>
+    `
+  );
+}, '');
+
+gallery.insertAdjacentHTML('beforeend', markup);
+
+links.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+  });
+});
+
+gallery.addEventListener('click', e => {
+  if (e.target.nodeName !== 'IMG') {
+    return;
+  }
+  const img = e.target;
+  const originalImg = img.dataset.source;
+  instance.show(() => {
+    instance.element().querySelector('img').src = originalImg;
+  });
+});
