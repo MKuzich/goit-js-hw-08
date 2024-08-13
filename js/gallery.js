@@ -65,7 +65,6 @@ const images = [
 ];
 
 const gallery = document.querySelector('.gallery');
-const links = document.querySelectorAll('.gallery-link');
 
 const instance = basicLightbox.create(
   `
@@ -74,9 +73,6 @@ const instance = basicLightbox.create(
     </div>
 `,
   {
-    onShow: instance => {
-      //   instance.element().querySelector('a').onclick = instance.close;
-    },
     onClose: instance => {
       instance.element().querySelector('img').src = '';
     },
@@ -102,13 +98,8 @@ const markup = images.reduce((acc, { preview, original, description }) => {
 
 gallery.insertAdjacentHTML('beforeend', markup);
 
-links.forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-  });
-});
-
 gallery.addEventListener('click', e => {
+  e.preventDefault();
   if (e.target.nodeName !== 'IMG') {
     return;
   }
